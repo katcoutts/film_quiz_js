@@ -15,6 +15,7 @@ var clearFields = function(){
   document.querySelector('#clue3text').innerText = "";
   document.querySelector('input').value = "";
   document.querySelector('#result').innerText = "";
+  document.querySelector('#pointsTotal').innerText = "";
 }
 
 
@@ -24,9 +25,7 @@ var requestComplete = function(){
   var jsonString = this.responseText;
   response = JSON.parse(jsonString); 
   console.log(response);
-  var release = response.Year;
   title = response.Title;
-  console.log(release);
   var clue1 = document.querySelector('#clue1text');
   var clue2 = document.querySelector('#clue2text');
   var clue3 = document.querySelector('#clue3text');
@@ -34,12 +33,22 @@ var requestComplete = function(){
   var button2 = document.querySelector('#clue2');
   var button3 = document.querySelector('#clue3');
   button1.onclick = function(){
+    if (response.Actors){
     clue1.innerText = "Stars: " + response.Actors;
     clues += 1;
+  } else {
+    clue1.innerText = "Released: " + response.Released;
+    clues += 1;
+  }
 }  
   button2.onclick = function(){
+    if (response.Director){
     clue2.innerText = "Directed by: " + response.Director;
     clues += 1;
+  } else {
+    clue2.innerText = "Awards: " + response.Awards;
+    clues += 1;
+  }
 }  
   button3.onclick = function(){
     clue3.innerText = response.Plot;
@@ -48,10 +57,7 @@ var requestComplete = function(){
   var guessButton = document.querySelector('#guess');
   guessButton.onclick = function(){
     var guess = document.querySelector('input').value;
-    console.log(guess)
     rightWrong = document.querySelector('#result');
-    // console.log(title.toLowerCase())
-    // console.log(guess.toLowerCase())
     if (guess.toLowerCase() === title.toLowerCase()){
       rightWrong.innerText = "You're right"
       var points = document.querySelector('#pointsTotal')
@@ -95,6 +101,13 @@ var requestComplete = function(){
       var finalScoreBox = document.querySelector('#finalScore');
       finalScoreBox.innerText = "The quiz is over. Your final score is " + score;
       console.log("Quiz is over. Your score is " + score);
+      var newButton = document.querySelector('#newQuizButton');
+      newButton.style.display = 'block';
+      newButton.onclick = function(){
+        console.log(location);
+        location.reload();
+      }
+      console.log(app);
     }
   };
 }
@@ -114,8 +127,8 @@ var app = function(){
     level = "hard";
     hardButton.disabled = true;
     easierButton.disable = true;
-    hardButton.style.visibility = "hidden";
-    easierButton.style.visibility = "hidden";
+    hardButton.style.display = "none";
+    easierButton.style.display = "none";
     url = "https://random-movie.herokuapp.com/random";
     makeRequest(url, requestComplete); 
   }
@@ -123,8 +136,8 @@ var app = function(){
     level = "easier";
     hardButton.disabled = true;
     easierButton.disable = true;
-    hardButton.style.visibility = "hidden";
-    easierButton.style.visibility = "hidden";
+    hardButton.style.display = "none";
+    easierButton.style.display = "none";
     title = films[Math.floor(Math.random()*films.length)];
     url = "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&r=json";
     makeRequest(url, requestComplete); 
