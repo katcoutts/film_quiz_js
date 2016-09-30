@@ -4,6 +4,40 @@ body{
   font-size: 25px;
 }
 
+h1{
+  color: #f44259;
+  text-align: center;
+  text-shadow: 2px 2px black;
+}
+
+#quizPick{
+  text-align: center;
+}
+
+button{
+  border-style: solid;
+}
+
+#quizPick button, #newQuizButton{
+  background-color: #4253f4;
+  font-size: 30px;
+  border-radius: 40px;
+  padding: 20px 20px 20px 20px;
+}
+
+#next {
+  background-color: #4253f4;
+  font-size: 20px;
+  border-radius: 30px;
+  padding: 15px 15px 15px 15px;
+}
+
+#clue1, #clue2, #clue3, #guess{
+  background-color: #f44259;
+  font-size: 15px;
+  border-radius: 20px;
+}
+
 textbox{
   display: block;
 }
@@ -11,6 +45,7 @@ textbox{
 h4{
   display: inline-block;
   vertical-align: left;
+  margin-right: 10px;
 }
 
 #next{
@@ -18,5 +53,21 @@ h4{
 }
 
 #newQuizButton{
+  display: none;
+}
+
+input{
+  font-size: 20px
+}
+
+#clues, #guessInfo{
+  margin-left: 60px;
+}
+
+img{
+  width: 250px;
+  height: 400px;
+  float: right;
+  margin-right: 150px;
   display: none;
 }

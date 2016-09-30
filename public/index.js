@@ -5,9 +5,10 @@ var title
 var rightWrong;
 var url;
 var counter = 1;
+var points;
 var score = 0;
 var level;
-var films = ['scream', 'cocoon', 'good will hunting', 'deerhunter', 'alien', 'the shining', 'bring it on', '10 things i hate about you', 'clueless', 'bend it like beckham', 'finding dory', 'the matrix', 'back to the future', 'airplane', 'ed wood', 'blade runner', 'chalet girl', 'the iron giant', 'some like it hot', 'rear window', 'crash', 'lego movie', 'the princess bride', 'armageddon', 'inception', 'goodfellas'];
+var films = ['scream', 'cocoon', 'good will hunting', 'deerhunter', 'alien', 'the shining', 'bring it on', '10 things i hate about you', 'clueless', 'bend it like beckham', 'finding dory', 'the matrix', 'back to the future', 'airplane', 'ed wood', 'blade runner', 'chalet girl', 'the iron giant', 'some like it hot', 'rear window', 'crash', 'lego movie', 'the princess bride', 'armageddon', 'inception', 'goodfellas', 'rashomon', 'attack the block', 'trainspotting', 'labyrinth', 'half past dead', 'cobra', 'jurassic park', 'speed', 'goldfinger', 'minority report', 'sicario'];
 
 var clearFields = function(){
   document.querySelector('#clue1text').innerText = "";
@@ -16,6 +17,7 @@ var clearFields = function(){
   document.querySelector('input').value = "";
   document.querySelector('#result').innerText = "";
   document.querySelector('#pointsTotal').innerText = "";
+  document.querySelector('img').style.display = "none";
 }
 
 
@@ -23,7 +25,15 @@ var requestComplete = function(){
   if(this.status !== 200) return;
   clues = 0;
   var jsonString = this.responseText;
-  response = JSON.parse(jsonString); 
+  response = JSON.parse(jsonString);
+  var index = films.indexOf(response.Title.toLowerCase());
+  // not working where it removes film from films array this way - need a way to avoid same film being used twice.
+  console.log(index);
+  films.slice(index);
+  console.log(films);
+  // if (filmsSoFar.indexOf('response') === -1){
+  // filmsSoFar.push(response.Title);
+  // console.log(filmsSoFar); 
   console.log(response);
   title = response.Title;
   var clue1 = document.querySelector('#clue1text');
@@ -58,9 +68,12 @@ var requestComplete = function(){
   guessButton.onclick = function(){
     var guess = document.querySelector('input').value;
     rightWrong = document.querySelector('#result');
+    points = document.querySelector('#pointsTotal')
     if (guess.toLowerCase() === title.toLowerCase()){
       rightWrong.innerText = "You're right"
-      var points = document.querySelector('#pointsTotal')
+      img = document.querySelector('img');
+      img.style.display = "inline-block";
+      img.src = response.Poster;
       if (clues === 1){
         points.innerText = "10";
         score += 10;
@@ -74,12 +87,17 @@ var requestComplete = function(){
         score += 2;
       }
     }
-    else if ((guess.toLowerCase() != title.toLowerCase)&& (clues < 3)){
+    else if ((guess.toLowerCase() != title.toLowerCase) && (clues < 3)){
       rightWrong.innerText = "You're wrong. Select another clue"
     }
     else {
-      rightWrong.innerText = "You're wrong. Move to the next question."
-    }
+      rightWrong.innerText = "You're wrong. The answer was " + title + " .Move to the next question."
+      img = document.querySelector('img');
+      img.style.display = "inline-block";
+      console.log(response.Poster);
+      img.src = response.Poster;
+      points.innerText = " 0";
+    };
   }
   var nextButton = document.querySelector('#next');
   nextButton.onclick = function(){
@@ -97,7 +115,7 @@ var requestComplete = function(){
     }
   }
     else{
-      nextButton.style.visibility = "hidden";
+      nextButton.style.display = "none";
       var finalScoreBox = document.querySelector('#finalScore');
       finalScoreBox.innerText = "The quiz is over. Your final score is " + score;
       console.log("Quiz is over. Your score is " + score);
@@ -109,11 +127,11 @@ var requestComplete = function(){
       }
       console.log(app);
     }
+  // }
   };
 }
 
 var makeRequest = function(url, callback){
-
   var request = new XMLHttpRequest();
   request.open("GET", url);
   request.onload = callback;
@@ -142,27 +160,6 @@ var app = function(){
     url = "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&r=json";
     makeRequest(url, requestComplete); 
   }
-  // var setUrlToHard = function(){
-  //   hardButton.disabled = true;
-  //   easierButton.disable = true;
-  //   url = "https://random-movie.herokuapp.com/random";
-  //   makeRequest(url, requestComplete); 
-  // }
-  // var setUrlToEasier = function(){
-  //   var films = ['scream', 'cocoon', 'good will hunting', 'deerhunter', 'alien', 'the shining', 'bring it on', '10 things i hate about you', 'clueless', 'bend it like beckham', 'finding dory', 'the matrix', 'back to the future', 'airplane', 'ed wood', 'blade runner', 'chalet girl', 'the iron giant', 'some like it hot', 'rear window', 'crash', 'lego movie', 'the princess bride', 'armageddon', 'inception', 'goodfellas'];
-  //   title = films[Math.floor(Math.random()*films.length)];
-  //   url = "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&r=json";
-  //   makeRequest(url, requestComplete); 
-  // }
-  // makeRequest(url, requestComplete) 
-
-  // var films = ['scream', 'cocoon', 'good will hunting', 'deerhunter', 'alien', 'the shining', 'bring it on', '10 things i hate about you', 'clueless', 'bend it like beckham', 'finding dory', 'the matrix', 'back to the future', 'airplane', 'ed wood', 'blade runner', 'chalet girl', 'the iron giant', 'some like it hot', 'rear window', 'crash', 'lego movie', 'the princess bride', 'armageddon', 'inception', 'goodfellas'];
-  // title = films[Math.floor(Math.random()*films.length)];
-  // var url = "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&r=json";
-
-  // url = "https://random-movie.herokuapp.com/random";
-
-  // makeRequest(url, requestComplete) 
 }
 
 window.onload = app;
