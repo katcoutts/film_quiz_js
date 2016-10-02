@@ -12,5 +12,13 @@
     "express": "^4.14.0"
   },
   "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katcoutts/film_quiz_js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/katcoutts/film_quiz_js/issues"
+  },
+  "homepage": "https://github.com/katcoutts/film_quiz_js#readme",
   "description": ""
 }

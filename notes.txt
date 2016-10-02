@@ -1,0 +1,19 @@
+STEPS TO BREAK DOWN THE CODE INTO SMALLER CHUNKS.
+
+When a player hits easier or hard that then sends off the request.
+
+Get the question and check it's not been asked in this round yet.
+
+Then go to a play question method?
+*** BUG - Try and do it so the clue buttons are disabled until the film has been got?? Sometimes if you hit next question and then clue 1 very quickly you'll get the clue from the last film.***
+
+Get clue.
+Check guess - if someone hits submit.
+
+Maybe try and do it so players can have two guesses after each clue - to help with typos or issues like The Iron Giant vs Iron Giant.
+
+If guess is right then check how many questions they've had and on next question onclick go to a new question.
+
+If it's the final question then the text for Next Question button should change to Get Final Score.
+
+Then a separate function can give you your score and image.

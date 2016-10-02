@@ -1,14 +1,16 @@
 var response;
 var clues;
 var guess;
-var title
+// var title
 var rightWrong;
 var url;
 var counter = 1;
 var points;
 var score = 0;
 var level;
-var films = ['scream', 'cocoon', 'good will hunting', 'deerhunter', 'alien', 'the shining', 'bring it on', '10 things i hate about you', 'clueless', 'bend it like beckham', 'finding dory', 'the matrix', 'back to the future', 'airplane', 'ed wood', 'blade runner', 'chalet girl', 'the iron giant', 'some like it hot', 'rear window', 'crash', 'lego movie', 'the princess bride', 'armageddon', 'inception', 'goodfellas', 'rashomon', 'attack the block', 'trainspotting', 'labyrinth', 'half past dead', 'cobra', 'jurassic park', 'speed', 'goldfinger', 'minority report', 'sicario'];
+var filmsSoFar = [];
+var films = ['scream', 'cocoon', 'good will hunting', 'alien', 'the shining', 'bring it on', '10 things i hate about you', 'clueless', 'bend it like beckham', 'finding dory', 'the matrix', 'back to the future', 'airplane', 'ed wood', 'blade runner', 'chalet girl', 'the iron giant', 'some like it hot', 'rear window', 'crash', 'lego movie', 'the princess bride', 'armageddon', 'inception', 'goodfellas', 'rashomon', 'attack the block', 'trainspotting', 'labyrinth', 'half past dead', 'cobra', 'jurassic park', 'speed', 'goldfinger', 'minority report', 'sicario', 'mary poppins', 'the sound of music', 'rocky'];
+var resultImageLink = ["http://1.bp.blogspot.com/-axGTzFJz2jc/UUg2i1qVquI/AAAAAAAAKJY/Wr6iebkvx4M/s1600/grail-knight1-meme-generator-you-chose-poorly-df5968.jpg","/chose_wisely.jpg","/han_solo.png"]
 
 var clearFields = function(){
   document.querySelector('#clue1text').innerText = "";
@@ -17,7 +19,7 @@ var clearFields = function(){
   document.querySelector('input').value = "";
   document.querySelector('#result').innerText = "";
   document.querySelector('#pointsTotal').innerText = "";
-  document.querySelector('img').style.display = "none";
+  document.querySelector('#posterImage').style.display = "none";
 }
 
 
@@ -26,16 +28,24 @@ var requestComplete = function(){
   clues = 0;
   var jsonString = this.responseText;
   response = JSON.parse(jsonString);
-  var index = films.indexOf(response.Title.toLowerCase());
-  // not working where it removes film from films array this way - need a way to avoid same film being used twice.
-  console.log(index);
-  films.slice(index);
-  console.log(films);
-  // if (filmsSoFar.indexOf('response') === -1){
-  // filmsSoFar.push(response.Title);
-  // console.log(filmsSoFar); 
-  console.log(response);
-  title = response.Title;
+  checkNotHadFilmBefore();
+}
+
+var checkNotHadFilmBefore = function(){
+  var index = filmsSoFar.indexOf(response.Title.toLowerCase());
+  if (index === -1){
+    filmsSoFar.push(response.Title);
+    playFilm();
+    console.log(filmsSoFar);
+  }
+  else if (index > -1){
+    makeRequest(url, requestComplete);
+  }
+}
+
+
+var playFilm = function(){
+  {
   var clue1 = document.querySelector('#clue1text');
   var clue2 = document.querySelector('#clue2text');
   var clue3 = document.querySelector('#clue3text');
@@ -68,37 +78,41 @@ var requestComplete = function(){
   guessButton.onclick = function(){
     var guess = document.querySelector('input').value;
     rightWrong = document.querySelector('#result');
-    points = document.querySelector('#pointsTotal')
+    
     if (guess.toLowerCase() === title.toLowerCase()){
       rightWrong.innerText = "You're right"
-      img = document.querySelector('img');
+
+// do something with an array for points  and take th epoints at position clues - 1
+
+      if (response.Poster != "N/A"){
+      img = document.querySelector('#posterImage');
       img.style.display = "inline-block";
       img.src = response.Poster;
-      if (clues === 1){
-        points.innerText = "10";
-        score += 10;
-      }
-      else if (clues === 2){
-        points.innerText = " 5";
-        score += 5;
-      }
-      else if (clues === 3){
-        points.innerText = " 2";
-        score += 2;
-      }
+    }
+      points = document.querySelector('#pointsTotal')
+      var pointsArray = [10, 5, 2];
+      var clueIndex = clues - 1;
+      answerPoints = pointsArray[clueIndex].toString()
+      points.innerText = answerPoints;
+      score += pointsArray[clueIndex];
     }
     else if ((guess.toLowerCase() != title.toLowerCase) && (clues < 3)){
       rightWrong.innerText = "You're wrong. Select another clue"
     }
     else {
-      rightWrong.innerText = "You're wrong. The answer was " + title + " .Move to the next question."
-      img = document.querySelector('img');
+      rightWrong.innerText = "You're wrong. The answer was " + title + " . Move to the next question."
+      if (response.Poster != "N/A"){
+      img = document.querySelector('#posterImage');
       img.style.display = "inline-block";
-      console.log(response.Poster);
       img.src = response.Poster;
+    }
       points.innerText = " 0";
     };
   }
+}
+
+
+
   var nextButton = document.querySelector('#next');
   nextButton.onclick = function(){
     counter += 1;
@@ -113,23 +127,35 @@ var requestComplete = function(){
       url = "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&r=json";
       makeRequest(url, requestComplete);
     }
+    // could make above an else if and then have an else which takes you to a getResult() function made out of the below.
   }
-    else{
+    else {
       nextButton.style.display = "none";
       var finalScoreBox = document.querySelector('#finalScore');
+      clearFields(); 
+      var resultImage = document.querySelector('#resultImage');
+      var i = 0;
+      if (score < 20){i = 0}
+      else if ((score >= 20 ) && (score < 45)) {i = 1}
+      else if (score >= 45) {i = 2}
+      var items = document.querySelectorAll('.toClear');
+      for (var item of items){
+        item.style.display = 'none';
+      } 
       finalScoreBox.innerText = "The quiz is over. Your final score is " + score;
-      console.log("Quiz is over. Your score is " + score);
+      resultImage.src = resultImageLink[i];
+      resultImage.style.display = "inline-block"
       var newButton = document.querySelector('#newQuizButton');
       newButton.style.display = 'block';
       newButton.onclick = function(){
         console.log(location);
         location.reload();
       }
-      console.log(app);
     }
   // }
   };
 }
+
 
 var makeRequest = function(url, callback){
   var request = new XMLHttpRequest();

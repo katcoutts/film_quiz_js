@@ -8,29 +8,30 @@
   <body background="cats_cinema.jpg">
     <h1>Kat's Movie Trivia Quiz:</h1>
     <div id="quizPick">
+    <textbox id="finalScore"></textbox>
     <button id="hard">Hard Quiz</button>
     <button id="easier">Easier Quiz</button>
     </div>
+    <img id="resultImage">
     <div id="clues">
-    <h4>Clue 1:  </h4>
-    <button id="clue1">Get First Clue</button>   
+    <h4 class="toClear">Clue 1:  </h4>
+    <button id="clue1" class="toClear">Get First Clue</button>   
     <textbox id="clue1text"></textbox>
-    <img>
-    <h4>Clue 2:  </h4>
-    <button id="clue2">Get Second Clue</button> 
+    <img id="posterImage">
+    <h4 class="toClear">Clue 2:  </h4>
+    <button id="clue2" class="toClear">Get Second Clue</button> 
     <textbox id="clue2text"></textbox>   
-    <h4>Clue 3:  </h4>
-    <button id="clue3">Get Third Clue</button>  
+    <h4 class="toClear">Clue 3:  </h4>
+    <button id="clue3" class="toClear">Get Third Clue</button>  
     <textbox id="clue3text"></textbox>  
     </div>
     <div id="guessInfo">
-    <h4>Enter guess:</h4>
-    <input type="text">
-    <button id="guess">Submit</button>
+    <h4 class="toClear">Enter guess:</h4>
+    <input type="text" class="toClear">
+    <button id="guess" class="toClear">Submit</button>
     <textbox id="result"></textbox>
-    <h4>Points:</h4><h4 id="pointsTotal"></h4>
+    <h4 class="toClear" class="pointsInfo">Points:</h4><h4 id="pointsTotal" class="pointsInfo"></h4>
     <button id="next">Next Question</button>
-    <textbox id="finalScore"></textbox>
     <button id="newQuizButton">New quiz</button>
     </div>
   </body>
