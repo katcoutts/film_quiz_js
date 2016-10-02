@@ -28,7 +28,21 @@ var requestComplete = function(){
   clues = 0;
   var jsonString = this.responseText;
   response = JSON.parse(jsonString);
+  checkFilmHasPlot();
   checkIfHadFilmBefore();
+}
+
+var checkFilmHasPlot = function(){
+  if (response.Plot === 'N/A'){
+    if (level === "easier"){
+    title = films[Math.floor(Math.random()*films.length)];
+    url = "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&r=json";
+    makeRequest(url, requestComplete);
+    } else if (level === "hard") {
+      url = "https://random-movie.herokuapp.com/random";
+      makeRequest(url, requestComplete); 
+    }
+  }
 }
 
 var checkIfHadFilmBefore = function(){
@@ -57,7 +71,9 @@ var setClues = function(){
   var clue3 = document.querySelector('#clue3text');
   var button1 = document.querySelector('#clue1');
   var button2 = document.querySelector('#clue2');
+  button2.disabled = true;
   var button3 = document.querySelector('#clue3');
+  button3.disabled = true;
   button1.onclick = function(){
     if (response.Actors){
     clue1.innerText = "Stars: " + response.Actors;
@@ -66,6 +82,7 @@ var setClues = function(){
     clue1.innerText = "Released: " + response.Released;
     clues += 1;
     }
+    button2.disabled = false;
   }  
   button2.onclick = function(){
     if (response.Director){
@@ -75,6 +92,7 @@ var setClues = function(){
     clue2.innerText = "Awards: " + response.Awards;
     clues += 1;
     }
+    button3.disabled = false;
   }  
   button3.onclick = function(){
     clue3.innerText = response.Plot;
@@ -105,6 +123,7 @@ var calculatePoints = function(){
 var handleGuess = function(answer){
   var guess = document.querySelector('input').value;
   rightWrong = document.querySelector('#result');
+  var guessButton = document.querySelector('#guess');
     // ANSWER IS RIGHT
   if (guess.toLowerCase() === answer.Title.toLowerCase()){
     rightWrong.innerText = "You're right"
@@ -120,6 +139,7 @@ var handleGuess = function(answer){
     // ANSWER IS WRONG AFTER ALL CLUES  
   else {
     rightWrong.innerText = "You're wrong. The answer was " + title + " . Move to the next question."
+    guessButton.disabled = true;
     if (response.Poster != "N/A"){
       showPoster(answer);
   }
