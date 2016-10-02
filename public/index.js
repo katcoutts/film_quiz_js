@@ -35,7 +35,7 @@ var checkNotHadFilmBefore = function(){
   var index = filmsSoFar.indexOf(response.Title.toLowerCase());
   if (index === -1){
     filmsSoFar.push(response.Title);
-    playFilm();
+    setClues();
     console.log(filmsSoFar);
   }
   else if (index > -1){
@@ -44,7 +44,7 @@ var checkNotHadFilmBefore = function(){
 }
 
 
-var playFilm = function(){
+var setClues = function(){
   {
   var clue1 = document.querySelector('#clue1text');
   var clue2 = document.querySelector('#clue2text');
@@ -56,24 +56,24 @@ var playFilm = function(){
     if (response.Actors){
     clue1.innerText = "Stars: " + response.Actors;
     clues += 1;
-  } else {
+    } else {
     clue1.innerText = "Released: " + response.Released;
     clues += 1;
-  }
-}  
+    }
+  }  
   button2.onclick = function(){
     if (response.Director){
     clue2.innerText = "Directed by: " + response.Director;
     clues += 1;
-  } else {
+    } else {
     clue2.innerText = "Awards: " + response.Awards;
     clues += 1;
-  }
-}  
+    }
+  }  
   button3.onclick = function(){
     clue3.innerText = response.Plot;
     clues += 1;
-}
+  }
   var guessButton = document.querySelector('#guess');
   guessButton.onclick = function(){
     var guess = document.querySelector('input').value;
@@ -164,24 +164,25 @@ var makeRequest = function(url, callback){
   request.send();
 }
 
+var hideEasyHardButtons = function(hardButton, easierButton){
+  hardButton.disabled = true;
+  easierButton.disable = true;
+  hardButton.style.display = "none";
+  easierButton.style.display = "none";
+}
+
 var app = function(){
   var hardButton = document.querySelector("#hard");
   var easierButton = document.querySelector('#easier');
   hardButton.onclick = function(){
     level = "hard";
-    hardButton.disabled = true;
-    easierButton.disable = true;
-    hardButton.style.display = "none";
-    easierButton.style.display = "none";
+    hideEasyHardButtons(hardButton, easierButton);
     url = "https://random-movie.herokuapp.com/random";
     makeRequest(url, requestComplete); 
   }
   easierButton.onclick = function(){
     level = "easier";
-    hardButton.disabled = true;
-    easierButton.disable = true;
-    hardButton.style.display = "none";
-    easierButton.style.display = "none";
+    hideEasyHardButtons(hardButton, easierButton);
     title = films[Math.floor(Math.random()*films.length)];
     url = "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&r=json";
     makeRequest(url, requestComplete); 
