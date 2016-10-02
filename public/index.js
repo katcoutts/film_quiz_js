@@ -34,9 +34,14 @@ var requestComplete = function(){
 var checkIfHadFilmBefore = function(){
   var index = filmsSoFar.indexOf(response.Title);
   if (index > -1){
+    if (level === "easier"){
     title = films[Math.floor(Math.random()*films.length)];
     url = "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&r=json";
     makeRequest(url, requestComplete);
+    } else if (level === "hard") {
+      url = "https://random-movie.herokuapp.com/random";
+      makeRequest(url, requestComplete); 
+    }
   }
   else{
     filmsSoFar.push(response.Title);
