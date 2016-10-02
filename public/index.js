@@ -1,9 +1,3 @@
-var response;
-var clues;
-var guess;
-var title
-var rightWrong;
-var url;
 var counter = 1;
 var points;
 var score = 0;
@@ -122,7 +116,7 @@ var calculatePoints = function(){
 
 var handleGuess = function(answer){
   var guess = document.querySelector('input').value;
-  rightWrong = document.querySelector('#result');
+  var rightWrong = document.querySelector('#result');
   var guessButton = document.querySelector('#guess');
     // ANSWER IS RIGHT
   if (guess.toLowerCase() === answer.Title.toLowerCase()){
