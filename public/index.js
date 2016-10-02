@@ -134,12 +134,18 @@ nextButton.onclick = function(){
     if (level === "hard"){
       clearFields();
       makeRequest(url, requestComplete);
+      if (counter === 5){
+        nextButton.innerText = "Get Score"
+      }
     }
     else {
       clearFields();
       title = films[Math.floor(Math.random()*films.length)];
       url = "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&r=json";
       makeRequest(url, requestComplete);
+      if (counter === 5){
+        nextButton.innerText = "Get Score"
+      }
     }
   }
   else {
