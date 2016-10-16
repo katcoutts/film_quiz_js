@@ -8,3 +8,6 @@ Screenshot of homepage
 
 Screenshot of correct answer page
 <img width="1215" alt="screen shot 2016-10-16 at 15 44 59" src="https://cloud.githubusercontent.com/assets/17859815/19418268/7652927a-93b8-11e6-8ecf-2ace5e63e97a.png">
+
+Screenshot of example results page:
+<img width="1126" alt="screen shot 2016-10-16 at 15 46 11" src="https://cloud.githubusercontent.com/assets/17859815/19418290/c6eccc28-93b8-11e6-8bc5-5e2a6bdba7fe.png">
