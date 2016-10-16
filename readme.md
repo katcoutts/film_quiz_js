@@ -5,3 +5,6 @@ The easier quiz uses a film api which requires you to provide a film name in the
 
 Screenshot of homepage
 <img width="1225" alt="screen shot 2016-10-16 at 15 44 30" src="https://cloud.githubusercontent.com/assets/17859815/19418252/3c8f0578-93b8-11e6-8e3c-70edecdf9399.png">
+
+Screenshot of correct answer page
+<img width="1215" alt="screen shot 2016-10-16 at 15 44 59" src="https://cloud.githubusercontent.com/assets/17859815/19418268/7652927a-93b8-11e6-8ecf-2ace5e63e97a.png">
